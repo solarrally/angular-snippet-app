@@ -1,0 +1,121 @@
+<div class="card auth-container">
+  <div class="card-body">
+    <h4 class="mb-2">{{ 'account-register-page-title' | translate }} 🚀</h4>
+    <p class="mb-4">{{ "account-register-page-subtitle" | translate }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" id="formAuthentication" class="mb-3">
+      <div class="mb-3">
+        <label for="firstName" class="form-label">{{ "first-name" | translate }}</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" formControlName="firstName" [placeholder]='this.translate("first-name-prompt")' />
+        
+        @if(form.get('firstName')?.invalid && form.get('firstName')?.touched) {
+          <div class="text-danger">
+            @if(form.get('firstName')?.errors?.['required']) {
+              <small>{{ this.translate('error-required-field', { fieldName: this.translate('first-name')}) }}</small>
+            }
+          </div>
+        }   
+      </div>
+
+      <div class="mb-3">
+        <label for="lastName" class="form-label">{{ "last-name" | translate }}</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" formControlName="lastName" [placeholder]='this.translate("last-name-prompt")' />
+        
+        @if(form.get('lastName')?.invalid && form.get('lastName')?.touched) {
+          <div class="text-danger">
+            @if(form.get('lastName')?.errors?.['required']) {
+              <small>{{ this.translate('error-required-field', { fieldName: this.translate('last-name')}) }}</small>
+            }
+          </div>
+        }   
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">{{ "email" | translate }}</label>
+        <input type="text" class="form-control" id="email" name="email" formControlName="email" [placeholder]='this.translate("email-prompt")' />
+        
+        @if(form.get('email')?.invalid && form.get('email')?.touched) {
+          <div class="text-danger">
+            @if(form.get('email')?.errors?.['required']) {
+              <small>{{ this.translate('error-required-field', { fieldName: this.translate('email')}) }}</small>
+            }
+
+            @if(form.get('email')?.errors?.['email']) {
+              <small>{{ 'error-invalid-email' | translate }}</small>
+              }                       
+          </div>
+        }      
+      </div>
+
+      <div class="mb-3 form-password-toggle">
+        <label class="form-label" for="password">{{ "password" | translate }}</label>
+        <div class="input-group input-group-merge">
+          <input  id="password" type="password" class="form-control" name="password" formControlName="password"
+            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+            aria-describedby="password" />
+        </div>
+
+        @if(form.get('password')?.invalid && form.get('password')?.touched){
+          <div class="text-danger">
+            @if(form.get('password')?.errors?.['required']) {
+              <small>{{ this.translate('error-required-field', { fieldName: this.translate('password')}) }}</small>
+            }
+
+            @if(form.get('password')?.errors?.['passwordStrength']) {
+            <small>
+              {{ form.get('password')?.errors?.['passwordStrength'] | translate }}
+            </small>
+            }
+        </div>
+        }
+      </div>
+      
+      <div class="mb-3 form-password-toggle">
+        <label class="form-label" for="confirm-password">{{ "confirm-password" | translate }}</label>
+        <div class="input-group input-group-merge">
+          <input  id="confirm-password" type="password" class="form-control" name="confirmPassword" formControlName="confirmPassword"
+            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+            aria-describedby="confirm-password" />
+        </div>
+
+        @if(form.get('confirmPassword')?.invalid && form.get('confirmPassword')?.touched){
+          <div class="text-danger">
+            @if(form.get('confirmPassword')?.errors?.['required']) {
+              <small>{{ this.translate('error-required-field', { fieldName: this.translate('confirm-password')}) }}</small>
+            }
+
+            @if(form.get('confirmPassword')?.errors?.['matchingRequired']) {
+              <small>{{ "error-password-matching" | translate }}</small>
+            }
+        </div>
+        }
+      </div>
+      
+      <div class="mb-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" formControlName="hasAgreedToTerms"/>
+          <label class="form-check-label" for="terms-conditions">
+            {{ "account-agree-to" | translate }}
+            <a routerLink="/terms">{{ "account-privacy-and-terms" | translate }}</a>
+          </label>
+        </div>
+        @if(form.get('hasAgreedToTerms')?.invalid && form.get('hasAgreedToTerms')?.touched){
+          <div class="text-danger">
+            @if(form.get('hasAgreedToTerms')?.errors?.['required']) {
+              <small>{{ "error-agree-to-terms" | translate }}</small>
+            }
+        </div>
+        }
+      </div>
+      <button class="btn btn-primary d-grid w-100" type="submit" [disabled]="form.invalid">{{ "account-sign-up" | translate }}</button>
+    </form>
+
+    <p class="text-center m-0">
+      <span>{{ "account-login-prompt" | translate }}</span>
+      <a routerLink="/auth/login">
+        <br />
+        <span>{{ "account-login-prompt-link" | translate }}</span>
+      </a>
+    </p>
+  </div>
+</div>

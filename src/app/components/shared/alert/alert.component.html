@@ -1,0 +1,45 @@
+@if(message?.show)
+{
+  @switch (message?.type) 
+  {
+    @case ('Error') 
+    {     
+      <div class="card-body alert-body" >
+        <div class="alert alert-danger alert-dismissible alert-box" role="alert">
+          {{ message?.text }}
+          <button type="button" class="btn-close" (click)="onClickHide()" aria-label="Close"></button>
+        </div>
+      </div>
+    }
+
+    @case ('Warning') 
+    {
+      <div class="card-body alert-body" >
+        <div class="alert alert-warning alert-dismissible alert-box" role="alert">
+          {{ message?.text }}
+          <button type="button" class="btn-close" (click)="onClickHide()" aria-label="Close"></button>
+        </div>
+      </div>
+    }
+
+   @case ('Success') 
+   {
+    <div class="card-body alert-body" >
+      <div class="alert alert-success alert-dismissible alert-box" role="alert">
+        {{ message?.text }}
+        <button type="button" class="btn-close" (click)="onClickHide()" aria-label="Close"></button>
+      </div>
+    </div>
+    }
+
+    @default 
+    {
+      <div class="card-body alert-body" >
+        <div class="alert alert-primary alert-dismissible alert-box" role="alert">
+          {{ message?.text }}
+          <button type="button" class="btn-close" (click)="onClickHide()" aria-label="Close"></button>
+        </div>
+      </div>
+    }
+  }        
+}

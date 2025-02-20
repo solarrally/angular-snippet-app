@@ -1,0 +1,72 @@
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+    id="layout-navbar">
+
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+        <div class="navbar-nav align-items-center">
+            <form [formGroup]="form" (keydown.enter)="onSearchSubmit()">
+                <div class="nav-item d-flex align-items-center">
+                    <i class="bx bx-search fs-4 lh-0"></i>
+                    <input type="text" class="form-control border-0 shadow-none"
+                        [placeholder]="this.translate('nav-search')" aria-label="Search..." formControlName="pattern" />
+                </div>
+            </form>
+        </div>
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                    <div class="avatar avatar-online">
+                        <img [src]="this.profileData?.imageUrl ? this.profileData!.imageUrl : '../assets/img/avatars/user-profile.png'"
+                            alt class="w-px-40 h-auto rounded-circle" />
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <div class="d-flex dropdown-item">
+                            <div class="flex-grow-1">
+                                <span class="fw-semibold d-block">{{ this.profileData?.firstName }} {{
+                                    this.profileData?.lastName }}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/">
+                            <span class="align-middle">{{ "nav-dashboard" | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/profile">
+                            <span class="align-middle">{{ "nav-profile" | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/snippets">
+                            <span class="align-middle">{{ "nav-snippets" | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <select  class="form-select" (change)="switchLanguage(selectLanguage.value)" #selectLanguage>
+                            <option value="en" [selected]="this.selectedLanguage == 'en'">{{ "lang-english" | translate }}</option>
+                            <option value="bg" [selected]="this.selectedLanguage == 'bg'">{{ "lang-bulgarian" | translate }}</option>
+                        </select>
+                    </li>
+                    <li>
+                        <div class="dropdown-divider"></div>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" (click)="onClickLogOut()">
+                            <i class="bx bx-power-off me-2"></i>
+                            <span class="align-middle">{{ "nav-log-out" | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

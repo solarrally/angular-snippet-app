@@ -1,0 +1,142 @@
+@if(this.pageContent?.userStatistics != null)
+{
+<div class="row">
+    <div class="col-lg-8 mb-4 order-0">
+        <div class="card">
+            <div class="d-flex align-items-end row">
+                <div class="col-sm-7">
+                    <div class="card-body">
+                        @if(this.pageContent!.userStatistics!.snippetsInTheCurrentMonth > 0)
+                        {
+                        <h5 class="card-title text-primary">{{ this.translate("dashboard-snippets-saved-user-greeting", {name: profileData?.firstName}) }} 🎉</h5>
+                        <p class="mb-4">
+                            {{ "dashboard-snippets-saved" | translate }}<span class="fw-bold">{{ this.pageContent!.userStatistics!.snippetsInTheCurrentMonth }}</span> {{ "dashboard-snippets-saved-add-more" | translate }}
+                        </p>
+                        }
+                        @else
+                        {
+                        <h5 class="card-title text-primary">{{ this.translate("dashboard-user-greeting", {name: profileData?.firstName}) }} </h5>
+                        <p class="mb-4">
+                            {{ "dashboard-snippets-add-more" | translate }}
+                        </p>
+                        }
+                        <a class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                           data-bs-target="#modal-create-update-snippet" href="#" (click)="openModal(null, ModalTypes.AddUpdate)">{{ "add-snippet" | translate }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 order-1">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                                <img src="../assets/img/icons/unicons/chart.png" alt="chart success" class="rounded" />
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">{{ "dashboard-total-snippets" | translate }}</span>
+                        <h3 class="card-title mb-2">{{ this.pageContent!.userStatistics!.snippetsTotal }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                                <img src="../assets/img/icons/unicons/chart-success.png" alt="Credit Card"
+                                    class="rounded" />
+                            </div>
+                        </div>
+                        <span class="fw-semibold d-block mb-1">{{ "dashboard-liked-by-other-users" | translate }} </span>
+                        <h3 class="card-title text-nowrap mb-1">{{
+                            this.pageContent!.userStatistics!.snippetsTotalLikesByUsers }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@if(this.pageContent?.snippets != null)
+{
+<div class="card">
+    <h5 class="card-header">{{ "dasboard-latest-snippets" | translate }}</h5>
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{{ "snippet-name" | translate }}</th>
+                    <th>{{ "snippet-description" | translate }}</th>
+                    <th>{{ "snippet-liked-by" | translate }}</th>
+                    <th>{{ "snippet-tags" | translate }}</th>
+                    <th>{{ "snippet-actions" | translate }}</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @for (snippet of this.pageContent?.snippets; track snippet.id)
+                {
+                <tr>
+                    <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{snippet.name}}</strong></td>
+                    <td>{{snippet.description}}</td>
+                    <td>
+                        @if(snippet.likedByUsers)
+                        {
+                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                            @for(user of snippet.likedByUsers; track user.email)
+                            {
+                            <li class="avatar avatar-xs pull-up tooltip-container">
+                                <span class="tooltiptext">{{user.firstName}} {{user.lastName}}</span>
+                                <img [src]="user?.imageUrl ? user!.imageUrl : '../assets/img/avatars/user-profile.png'"
+                                    alt="Avatar" class="rounded-circle">
+                            </li>
+                            }
+                        </ul>
+                        }
+                    </td>
+                    <td>
+                        @for (tag of snippet.tags; track tag)
+                        {
+                        <span class="badge rounded-pill bg-label-warning me-1">{{ tag }}</span>
+                        }
+
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" (click)="openModal(snippet.id, ModalTypes.View)">
+                                    <i class="bx bxs-right-arrow-circle me-1"></i>
+                                    {{ "view-snippet" | translate }}</a>
+
+                                <a class="dropdown-item" (click)="openModal(snippet.id, ModalTypes.AddUpdate)">
+                                    <i class="bx bx-edit-alt me-1"></i>
+                                    {{ "edit-snippet" | translate }}</a>
+                                <a class="dropdown-item" (click)="openModal(snippet.id, ModalTypes.Delete)">
+                                    <i class="bx bx-trash me-1"></i>
+                                    {{ "delete-snippet" | translate }}</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-body">
+        <a class="card-link" routerLink="/snippets"><span>{{ "dashboard-view-all" | translate }}</span></a>
+    </div>
+</div>
+}
+@else
+{
+<div class="card">
+    <h5 class="card-header">{{ "dashboard-no-snippets" | translate }} </h5>
+</div>
+}

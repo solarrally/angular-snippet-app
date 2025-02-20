@@ -1,0 +1,128 @@
+<div class="card">
+    <h5 class="card-header">{{ "snippets" | translate }} </h5>
+    <div class="card-body flex-column">
+        <a class="btn btn-sm btn-primary align-self-end" (click)="openModal(null, ModalTypes.AddUpdate)">{{ "add-snippet" | translate }}</a>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="html5-date-input" class="col-form-label">{{ "snippets-date-from" | translate }}</label>
+                <input class="form-control" type="date" #startDateInput
+                    (change)="onFilterChange(categorySelect.value, authorSelect.value, startDateInput.value, endDateInput.value, onlyMySnippetsInput.checked)">
+            </div>
+            <div class="col-md-2">
+                <label for="html5-date-input" class="col-form-label">{{ "snippets-date-to" | translate }}</label>
+                <input class="form-control" type="date" #endDateInput lang="fr-CA"
+                    (change)="onFilterChange(categorySelect.value, authorSelect.value, startDateInput.value, endDateInput.value, onlyMySnippetsInput.checked)">
+            </div>
+            <div class="col-md-2">
+                <label for="html5-date-input" class="col-form-label">{{ "snippets-language" | translate }}</label>
+                <select class="form-select" aria-label="Default select example" #categorySelect
+                    (change)="onFilterChange(categorySelect.value, authorSelect.value, startDateInput.value, endDateInput.value, onlyMySnippetsInput.checked)">
+                    <option selected="">{{ "snippets-choose-language" | translate }}</option>
+
+                    @for(language of this.filtersData?.languages; track language.id)
+                    {
+                    <option [value]="language.id" [selected]="selectedLanguageId == language.id">
+                        {{ language.name }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="html5-date-input" class="col-form-label">{{ "snippets-author" | translate }}</label>
+                <select class="form-select" aria-label="Default select example" #authorSelect
+                    (change)="onFilterChange(categorySelect.value, authorSelect.value, startDateInput.value, endDateInput.value, onlyMySnippetsInput.checked)">
+                    <option selected="" value="">{{ "snippets-choose-author" | translate }}</option>
+
+                    @for(user of this.filtersData?.users; track user.id)
+                    {
+                    <option [value]="user.id" [selected]="selectedAuthorId == user.id">
+                        {{ user.firstName }} {{ user.lastName }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4">
+                <div class="form-check form-switch mt-5">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" #onlyMySnippetsInput
+                        (change)="onFilterChange(categorySelect.value, authorSelect.value, startDateInput.value, endDateInput.value, onlyMySnippetsInput.checked)">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">{{ "snippets-only-my-snippets" | translate }}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if(this.snippetsGrid != null && this.snippetsGrid.totalRecordsCount > 0)
+    {
+    <div class="text-nowrap">
+        <table class="table table-hover table-responsive ">
+            <thead>
+                <tr>
+                    <th>{{ "snippet-name" | translate }}</th>
+                    <th>{{ "snippet-description" | translate }}</th>
+                    <th>{{ "snippet-language" | translate }}</th>
+                    <th>{{ "snippet-tags" | translate }}</th>
+                    <th>{{ "snippet-actions" | translate }}</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @for(snippet of this.snippetsGrid!.results; track snippet.id)
+                {
+                <tr>
+                    <td>
+                        <strong>{{snippet.name}}</strong>
+                    </td>
+                    <td>{{snippet.description}}</td>
+                    <td><span class="badge bg-label-primary me-1">{{snippet.language?.name}}</span></td>
+                    <td>
+                        @for(tag of snippet.tags; track tag)
+                        {
+                        <span class="badge rounded-pill bg-label-warning me-1">
+                            {{ tag }}
+                        </span>
+                        }
+                    </td>
+                    <td>
+                        <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" (click)="openModal(snippet.id, ModalTypes.View)">
+                                    <i class="bx bxs-right-arrow-circle me-1"></i>
+                                    {{ "view-snippet" | translate }}</a>
+
+                                @if(userCanEdit(snippet.authorId!))
+                                {
+                                <a class="dropdown-item" 
+                                    (click)="openModal(snippet.id, ModalTypes.AddUpdate)">
+                                    <i class="bx bx-edit-alt me-1"></i>
+                                    {{ "edit-snippet" | translate }}</a>
+                                <a class="dropdown-item"
+                                    (click)="openModal(snippet.id, ModalTypes.Delete)">
+                                    <i class="bx bx-trash me-1"></i>
+                                    {{ "delete-snippet" | translate }}</a>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-body align-self-center">
+        <div class="row gy-3">
+            <app-pagination [currentPage]="this.currentPage" [totalItems]="this.snippetsGrid!.totalRecordsCount!"
+                [itemsPerPage]="this.snippetsGrid!.pageSize!" (pageChange)="onPageChange($event)">
+            </app-pagination>
+        </div>
+    </div>
+    }
+    @else
+    {
+    <div class="card">
+        <h5 class="card-header">{{ "snippets-no-results" | translate }}</h5>
+    </div>
+    }
+</div>

@@ -1,0 +1,30 @@
+<div class="modal-dialog modal-xl modal-dialog-container modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 mat-dialog-title class="modal-title">
+        {{this.content?.name}}
+        
+        @if(this.content?.authorId != authorizedUser?.id)
+        {
+          <app-like-snippet 
+          [id]="this.content!.id"
+          [isLiked]="this.content!.isLiked"></app-like-snippet>
+        }
+
+        <a class="mr-3 link" (click)="copyMessage()" title="copy">
+          <i class="bx bxs-copy-alt me-1"></i></a>
+      </h5>
+      <button type="button" class="btn-close" mat-button (click)="onClose()" aria-label="Close"></button>
+    </div>
+    <mat-dialog-content>
+      <div class="modal-body">
+        <div class="code">
+          <pre><code [highlight]="content!.text" [language]="content!.languageCode"></code></pre>
+        </div>
+      </div>
+    </mat-dialog-content>
+    <div class="modal-footer">
+      <button mat-button (click)="onClose()" class="btn btn-outline-secondary">{{ "snippets-close" | translate }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="modal-dialog modal-sm modal-dialog-container modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 mat-dialog-title class="modal-title" id="modalCenterTitle">{{ "snippets-delete-snippet" | translate }}</h5>
+      <button type="button" class="btn-close" mat-button (click)="onClose()" aria-label="Close"></button>
+    </div>
+    <mat-dialog-content>
+      <div class="modal-body">
+        <p class="card-text">{{ "snippets-delete-confirmation" | translate }}</p>
+      </div>
+    </mat-dialog-content>
+    <div class="modal-footer">
+      <button mat-button (click)="onClose()" class="btn btn-outline-secondary">{{ "snippets-close" | translate }}</button>
+      <button type="submit" mat-button class="btn btn-primary" (click)="onClick()">{{ "snippets-delete" | translate }}</button>
+    </div>
+  </div>
+</div>

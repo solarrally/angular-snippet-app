@@ -1,0 +1,13 @@
+<div class="mt-3 align-items-center d-flex align-items-center ml-3 pagination-container">     
+    @if(currentPage !== 1){        
+        <a class="pagination-link" (click)="goToPage(1)">{{ "pagination-first" | translate }}</a>
+        <a class="pagination-link" (click)="previousPage()">{{ "pagination-previous" | translate }}</a>
+    }
+
+    <div class="fw-semibold d-block ml-15 mr-15">{{ currentPage }} {{ "pagination-of" | translate }} {{ totalPages }}</div>
+
+    @if(currentPage !== totalPages) {
+        <a class="pagination-link" (click)="nextPage()">{{ "pagination-next" | translate }}</a>
+        <a class="pagination-link" (click)="goToPage(totalPages)">{{ "pagination-last" | translate }}</a>
+    }    
+</div>      

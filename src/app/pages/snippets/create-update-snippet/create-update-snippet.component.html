@@ -1,0 +1,95 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="modal-dialog modal-xl modal-dialog-container modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 mat-dialog-title class="modal-title">{{getTitle()}} {{ "snippets-snippet" | translate }}</h5>
+        <button type="button" class="btn-close" mat-button (click)="onClose()" aria-label="Close"></button>
+      </div>
+      <mat-dialog-content> 
+        <div class="modal-body">
+          <div class="row">
+            <div class="col mb-3 col-xs-12">
+              <label for="nameWithTitle" class="form-label">{{ "snippet-name" | translate }}</label>
+              <input type="text" class="form-control" [placeholder]="this.translate('snippet-name-prompt')" formControlName="name">
+
+              @if(form.get('name')?.invalid && form.get('name')?.touched) {
+              <div class="text-danger">
+                @if(form.get('name')?.errors?.['required']) {
+                  <small>{{ this.translate('error-required-field', { fieldName: this.translate('snippet-name')}) }}</small>
+                }
+              </div>
+              }
+            </div>
+            <div class="col mb-3 col-xs-12">
+              <label for="nameWithTitle" class="form-label">{{ "snippet-description" | translate }}</label>
+              <input type="text" class="form-control" [placeholder]="this.translate('snippet-description-prompt')" formControlName="description">
+            </div>
+            <div class="col mb-3 col-xs-12">
+              <label for="html5-date-input" class="form-label">{{ "snippet-language" | translate }}</label>
+              <select class="form-select" aria-label="Default select example" formControlName="languageId">
+                <option selected="" value="">{{ "snippets-choose-language" | translate }}</option>
+                @for(language of this.filtersData?.languages; track language.id)
+                {
+                <option [value]="language.id" [selected]="form.get('languageId')?.value == language.id">
+                  {{ language.name }}
+                </option>
+                }
+              </select>
+
+              @if(form.get('languageId')?.invalid && form.get('languageId')?.touched) {
+              <div class="text-danger">
+                @if(form.get('languageId')?.errors?.['required']) {
+                  <small>{{ this.translate('error-required-field', { fieldName: this.translate('snippet-language')}) }}</small>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="nameWithTitle" class="form-label">{{ "snippet-text" | translate }}</label>
+              <textarea rows="10" class="form-control" [placeholder]="this.translate('snippet-text-prompt')" formControlName="text"></textarea>
+
+              @if(form.get('text')?.invalid && form.get('text')?.touched) {
+              <div class="text-danger">
+                @if(form.get('text')?.errors?.['required']) {
+                  <small>{{ this.translate('error-required-field', { fieldName: this.translate('snippet-text')}) }}</small>
+                }
+              </div>
+              }
+            </div>
+          </div>
+          <div class="row">
+            <div class="col mt-3 col-xs-12">
+              <div class="tag-input-container">
+                <div class="input-group">
+                  <input type="text" class="form-control" aria-label="Example a tag"
+                    formControlName="tag">
+                  <button class="btn btn-outline-warning" type="button" (click)="addTag()">{{ "snippets-add-tag" | translate }}</button>
+                </div>
+
+                <div class="tags mt-3">
+                  @for(tag of this.form.get('tags')?.value; track tag)
+                  {
+                  <button (click)="removeTag(tag)" class="btn btn-icon auto-size" [title]="this.translate('snippets-remove-tag')" type="button">
+                    <span class="badge rounded-pill bg-label-warning me-1">
+                      {{ tag }}
+                    </span>
+                  </button>
+                  }
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-dialog-content>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" mat-button (click)="onClose()">
+          {{ "snippets-close" | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" mat-button [disabled]="form.invalid">{{ "snippets-save-changes" | translate }}</button>
+      </div>
+    </div>
+  </div>
+</form>

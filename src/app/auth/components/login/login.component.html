@@ -1,0 +1,65 @@
+@if(isVisible)
+{
+<div class="card auth-container">
+  <div class="card-body">
+    <h4 class="mb-2">{{ "account-welcolme" | translate }}👋</h4>
+    <p class="mb-4">{{ "account-sing-in-prompt" | translate }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="mb-3" id="formAuthentication">
+      <div class="mb-3">
+        <label for="email" class="form-label">{{ "email" | translate }}</label>
+        <input type="text" class="form-control" id="email" name="email" formControlName="email"
+          [placeholder]='this.translate("email-prompt")' autofocus />
+
+        @if(form.get('email')?.invalid && form.get('email')?.touched) {
+        <div class="text-danger">
+          @if(form.get('email')?.errors?.['required']) {
+          <small>{{ this.translate('error-required-field', { fieldName: this.translate('email')}) }}</small>
+          }
+
+          @if(form.get('email')?.errors?.['email']) {
+          <small>{{ 'error-invalid-email' | translate }}</small>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="mb-3 form-password-toggle">
+        <div class="d-flex justify-content-between">
+          <label class="form-label" for="password">{{ 'password' | translate }}</label>
+          <a routerLink="/auth/reset-password">
+            <small>{{ "account-forgot-password" | translate }}</small>
+          </a>
+        </div>
+
+        <div class="input-group input-group-merge">
+          <input type="password" id="password" class="form-control" name="password" id="password"
+            formControlName="password"
+            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+            aria-describedby="password" />
+        </div>
+
+        @if(form.get('password')?.invalid && form.get('password')?.touched){
+        <div class="text-danger">
+          @if(form.get('password')?.errors?.['required']) {
+            <small>{{ this.translate('error-required-field', { fieldName: this.translate('password')}) }}</small>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="mb-3">
+        <button class="btn btn-primary d-grid w-100" type="submit" [disabled]="form.invalid">{{ "account-sign-in" | translate }}</button>
+      </div>
+    </form>
+
+    <p class="text-center m-0">
+      <span>{{"account-register-prompt" | translate }}</span>
+      <br />
+      <a routerLink="/auth/register">
+        <span>{{"account-create-account" | translate }}</span>
+      </a>
+    </p>
+  </div>
+</div>
+}

@@ -1,0 +1,69 @@
+<div class="card mb-4">
+    <h5 class="card-header">{{ "profile-details" | translate }}</h5>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="card-body">      
+        <div class="d-flex align-items-start align-items-sm-center gap-4">
+
+          <img [src]="this.profileData?.imageUrl ? this.profileData!.imageUrl : '../assets/img/avatars/user-profile.png'" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+
+          <div class="button-wrapper">
+            <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+              <span class="d-none d-sm-block">{{ "profile-upload-new-image" | translate }}</span>
+              <i class="bx bx-upload d-block d-sm-none"></i>
+              <input type="file" id="upload" class="account-file-input" hidden="" accept="image/png, image/jpeg" formControlName="imageFile" (change)="onFileSelected($event)">
+            </label>           
+            <button type="button" class="btn btn-outline-danger account-image-reset mb-4" (click)="onResetImageToDefault()">
+              <i class="bx bx-reset d-block d-sm-none"></i>
+              <span class="d-none d-sm-block">{{ "profile-image-reset" | translate }}</span>
+            </button> 
+
+            @if(this.selectedFile?.name) 
+            {
+              <p class="text-muted mb-0">{{this.selectedFile?.name}}</p>
+            }
+            @else
+            {
+              <p class="text-muted mb-0">{{ "profile-image-restrictions" | translate }}</p>
+            }
+          </div>
+        </div>
+      </div>
+      <hr class="my-0">
+      <div class="card-body">
+          <div class="row">
+            <div class="mb-3 col-md-6">
+              <label for="firstName" class="form-label">{{ "first-name" | translate }}</label>
+              <input formControlName="firstName" class="form-control" type="text" id="firstName" name="firstName">
+              @if(form.get('firstName')?.invalid && form.get('firstName')?.touched) {
+                <div class="text-danger">
+                  @if(form.get('firstName')?.errors?.['required']) {
+                    <small>{{ this.translate('error-required-field', { fieldName: this.translate('first-name')}) }}</small>
+                  }
+                </div>
+              }
+            
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="lastName" class="form-label">{{ "last-name" | translate }}</label>
+              <input formControlName="lastName" class="form-control" type="text" name="lastName" id="lastName">
+
+              @if(form.get('lastName')?.invalid && form.get('lastName')?.touched) {
+                <div class="text-danger">
+                  @if(form.get('lastName')?.errors?.['required']) {
+                    <small>{{ this.translate('error-required-field', { fieldName: this.translate('last-name')}) }}</small>
+                  }
+                </div>
+              }
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="email" class="form-label">{{ "email" | translate }}</label>
+              <input id="email" class="form-control" type="text" disabled [value]="profileData?.email">
+            </div>
+          </div>
+          <div class="mt-2">
+            <button type="submit" class="btn btn-primary me-2" [disabled]="form.invalid">{{ "profile-save-changes" | translate }}</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">{{ "profile-cancel" | translate }}</button>
+          </div>
+      </div>    
+    </form>
+  </div>

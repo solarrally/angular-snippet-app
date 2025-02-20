@@ -1,0 +1,10 @@
+@if(this.isLikedValue)
+{
+  <a class="mr-3 link" (click)="onAddRemoveLikeClick(false)" [title]="this.translate('snippets-liked')">
+    <i class="bx bx-heart red me-1"></i></a>
+}
+@else
+{
+  <a class="mr-3 link" (click)="onAddRemoveLikeClick(true)" [title]="this.translate('snippets-not-liked')">
+    <i class="bx bx-heart me-1"></i></a>
+}
